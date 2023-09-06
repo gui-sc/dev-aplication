@@ -1,5 +1,5 @@
 import { Router } from "express";
-import hash from 'object-hash'
+import hash from 'object-hash';
 import fs from 'fs';
 import users from '../data/users.json' assert {type: "json"};
 import bcrypt from 'bcrypt';
@@ -57,7 +57,7 @@ app.put("/update", authenticator, (req, res) => {
     if (pwd) user.author_pwd = pwd_encrypt;
     if (email) user.author_user = username;
     const index = users.findIndex(u => u.author_id === user.author_id);
-    users.splice(index, 0, user);
+    users.splice(index, 1, user);
     fs.writeFileSync(__dirname + '\\data\\users.json', JSON.stringify(users));
     return res.status(204).send();
 })
@@ -84,7 +84,7 @@ app.delete("/:id", authenticator, (req, res) => {
     }
     user.author_status = false;
     const index = users.findIndex(u => u.author_id === user.author_id);
-    users.splice(index, 0, user);
+    users.splice(index, 1, user);
     fs.writeFileSync(__dirname + '\\data\\users.json', JSON.stringify(users));
     return res.status(204).send();
 
