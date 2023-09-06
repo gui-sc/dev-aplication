@@ -5,7 +5,7 @@ const app = Router();
 
 app.post("/login", async (req, res) => {
     const user = users.filter(u => u.author_user == req.body.user && bcrypt.compareSync(req.body.pwd, u.author_pwd))[0];
-    if (user) {
+    if (user && user.author_status) {
         req.session.user = user;
         return res.status(200).json({ message: "Success", user });
     }
