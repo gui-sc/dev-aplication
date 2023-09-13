@@ -17,6 +17,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+app.use(express.static(__dirname + "/public"));
 const router = express.Router()
 app.use(router);
 router.use("/", index);

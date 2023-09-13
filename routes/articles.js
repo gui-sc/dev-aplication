@@ -7,15 +7,6 @@ import liked_counter from "../middlewares/liked_counter.js";
 import { __dirname } from "../app.js";
 const app = Router();
 
-app.get("/:id", (req, res) => {
-    const { id } = req.params;
-    const article = articles.filter(a => a.kb_id == id)[0];
-    if (!article) {
-        return res.status(404).json({ message: "Article not found" });
-    }
-    return res.status(200).json({ article });
-})
-
 app.get("/most_liked", (req, res) => {
     const sortArticles = articles.sort((x, y) => x.kb_liked_count - y.kb_liked_count).slice(0, 10);
     return res.status(200).json(sortArticles);
@@ -25,6 +16,15 @@ app.get("/featured", (req, res) => {
     const featured = articles.filter(a => a.kb_featured);
     return res.status(200).json(featured);
 })
+app.get("/:id", (req, res) => {
+    const { id } = req.params;
+    const article = articles.filter(a => a.kb_id == id)[0];
+    if (!article) {
+        return res.status(404).json({ message: "Article not found" });
+    }
+    return res.status(200).json({ article });
+})
+
 
 app.get("/keywords/:keyword", (req, res) => {
     const { keyword } = req.params;
