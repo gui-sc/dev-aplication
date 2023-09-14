@@ -17,5 +17,8 @@ app.get('/home.html', (req, res) => {
     res.sendFile(__dirname+"/public/home.html");
 })
 
+app.get('/artigo/:id', (req, res) => {
+    res.sendFile(__dirname+"/public/artigo.html");
+})
 
 export default app;
