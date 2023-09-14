@@ -1,0 +1,79 @@
+.cabecalho{
+    background-color: rgb(22, 118, 214);
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+.botoes{
+    display: flex;
+    flex-direction: row;
+    margin-left: 92%;
+    gap: 10px;
+    max-width: 50px;
+}
+.btnlogin{
+    background-color: dodgerblue;
+    border: none;
+    padding: 8px;
+    width: 100%;
+    border-radius: 10px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+.btnadmin{
+    background-color: dodgerblue;
+    border: none;
+    padding: 8px;
+    width: 100%;
+    border-radius: 10px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+.destaques{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.curtidos{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.cards{
+    margin-top: 10px;
+    width: 250px;
+    height: 250px;
+    border-radius: 15px;
+
+    background-color: black;
+}
+.titulo{
+    color: aliceblue;
+}
+.descricao{
+    color: aliceblue;
+    text-align: justify;
+}
+.container{
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+html, header, body{
+    margin: 0;
+    padding: 0;
+}   
+body{
+    background-attachment: fixed;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+h1{
+    text-align: center;
+}
