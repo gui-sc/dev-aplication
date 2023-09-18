@@ -1,13 +1,17 @@
 import { Router } from "express";
 import hash from 'object-hash';
 import fs from 'fs';
-import users from '../data/users.json' assert {type: "json"};
 import bcrypt from 'bcrypt';
 import { __dirname } from "../app.js";
 import authenticator from "../middlewares/authenticator.js";
 const app = Router();
 
+app.get("/user-data", (req, res) => {
+    return res.status(200).json({user: req.session.user ? req.session.user : null});
+})
+
 app.get("/:user", (req, res) => {
+    const users = JSON.parse(fs.readFileSync(__dirname + '/data/users.json'));
     const user = users.filter(u => u.author_user == req.params.user)[0];
     if (!user) {
         return res.status(404).json({ message: "Usuário não encontrado" });
@@ -16,6 +20,7 @@ app.get("/:user", (req, res) => {
 })
 
 app.post("/create", authenticator, (req, res) => {
+    const users = JSON.parse(fs.readFileSync(__dirname + '/data/users.json'));
     const user = users.filter(u => u.author_email == req.body.email)[0];
     if (user) {
         return res.status(409).json({ message: "Email já cadastrado" });
@@ -39,6 +44,7 @@ app.post("/create", authenticator, (req, res) => {
 });
 
 app.put("/update", authenticator, (req, res) => {
+    const users = JSON.parse(fs.readFileSync(__dirname + '/data/users.json'));
     if (!req.body.id) {
         return res.status(400).json({ message: "Informe o ID!" });
     }
@@ -63,6 +69,7 @@ app.put("/update", authenticator, (req, res) => {
 })
 
 app.put("/activate/:id", authenticator, (req, res) => {
+    const users = JSON.parse(fs.readFileSync(__dirname + '/data/users.json'));
     const user = users.filter(u => u.id == req.params.id)[0];
     if (!user) {
         return res.status(404).json({ message: "Usuário não encontrado" });
@@ -78,6 +85,7 @@ app.put("/activate/:id", authenticator, (req, res) => {
 })
 
 app.delete("/:id", authenticator, (req, res) => {
+    const users = JSON.parse(fs.readFileSync(__dirname + '/data/users.json'));
     const user = users.filter(u => u.id == req.params.id)[0];
     if (!user) {
         return res.status(404).json({ message: "Usuário não encontrado" });
