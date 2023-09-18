@@ -5,6 +5,11 @@
     display: flex;
     align-items: center;
 }
+.ola{
+    color: black;
+    display: flex;
+    margin-left: 10px;
+}
 .botoes{
     display: flex;
     flex-direction: row;
@@ -13,16 +18,6 @@
     max-width: 50px;
 }
 .btnlogin{
-    background-color: dodgerblue;
-    border: none;
-    padding: 8px;
-    width: 100%;
-    border-radius: 10px;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-}
-.btnadmin{
     background-color: dodgerblue;
     border: none;
     padding: 8px;
