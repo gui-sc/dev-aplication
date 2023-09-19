@@ -1,0 +1,10 @@
+body{
+    background-attachment: fixed;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+div{
+    margin-top: 70px;
+    color: aliceblue;
+    text-align: center;
+}
