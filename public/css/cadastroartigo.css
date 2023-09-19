@@ -2,7 +2,7 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     background-image: ('img/img-fundo.jpg');
 }
-.tela-login{
+.container{
     background-color: rgba(0, 0, 0, 0.9);
     position: absolute;
     top: 50%;
@@ -13,8 +13,15 @@ body{
     color: white;
     text-align: center;
 }
-input{
+
+.nome{
     padding: 15px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+}
+.descricao{
+    padding: 50px;
     border: none;
     outline: none;
     font-size: 15px;
