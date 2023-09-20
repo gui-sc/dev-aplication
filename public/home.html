@@ -7,26 +7,32 @@
     <title>Home</title>
     <link rel="stylesheet" href="/css/home.css">
 </head>
-
+<header class="cabecalho">
+    <div class="titulo">
+    </div>
+    <div class="botoes">
+        <input type="text" id="keyword" name="keyword" placeholder="Busca por palavra-chave">
+        <button type="button" class="btnlogin" onclick="search()">Pesquisa</button>
+    </div>
+</header>
 <body background="/img/img-fundo.jpg">
 
-    <header class="cabecalho">
-        <div class="titulo">
-        </div>
-        <div class="botoes">
-        </div>
-    </header>
-    <H1>Destaques</H1>
+    
+    <h1 class="destaques">Destaques</h1>
     <div class="destaques">
     </div>
 
-    <h1>Mais Curtidos</h1>
-
+    <h1 class="curtidos">Mais Curtidos</h1>
     <div class="curtidos">
     </div>
 
+    <h1 class="resultados" style="display: none;">Resultados</h1>
+    <div class="resultados" style="display: none;">
     </div>
     <script src="/script/home.js"></script>
 </body>
 
+<footer class="rodape">
+
+</footer>
 </html>

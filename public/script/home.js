@@ -1,22 +1,25 @@
 const baseUrl = "http://localhost:3000"
-let destaques = document.getElementsByClassName('destaques')[0];
-let curtidos = document.getElementsByClassName('curtidos')[0];
+let destaques = document.getElementsByClassName('destaques');
+let curtidos = document.getElementsByClassName('curtidos');
 let titulo = document.getElementsByClassName('titulo')[0];
 let botoes = document.getElementsByClassName('botoes')[0];
+let resultados = document.getElementsByClassName('resultados');
+let keywordInput = document.getElementById('keyword');
 let mostLiked;
 let featured;
 let user;
-async function getUserData(){
-    
-    user = await fetch(baseUrl+"/users/user-data",{
+let results;
+async function getUserData() {
+
+    user = await fetch(baseUrl + "/users/user-data", {
         method: "GET"
     }).then(async (res) => {
-        return await res.json().then(res => {return res.user});
+        return await res.json().then(res => { return res.user });
     })
-    console.log(user);
+    
 }
 async function getMostLikedArticles() {
-    mostLiked = await fetch(baseUrl+"/articles/most_liked", {
+    mostLiked = await fetch(baseUrl + "/articles/most_liked", {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -26,8 +29,48 @@ async function getMostLikedArticles() {
     });
 }
 
-async function getFeaturedArticles(){
-    featured = await fetch(baseUrl+"/articles/featured", {
+async function search() {
+    if (keywordInput.value.trim() != '') {
+        results = await fetch(`${baseUrl}/articles/keywords/${keywordInput.value}`, {
+            method: 'GET'
+        }).then(async res => {
+            return await res.json()
+        })
+
+        results.forEach(artigo => {
+            let div = document.createElement('div');
+            div.classList.add('cards');
+            let a = document.createElement('a');
+            a.setAttribute('href', `http://localhost:3000/artigo/${artigo.kb_id}`);
+            a.setAttribute('target', '_blank');
+            let h1 = document.createElement('h1');
+            h1.classList.add('titulo');
+            h1.innerHTML = artigo.kb_title;
+            let p = document.createElement('p');
+            p.classList.add('descricao');
+            p.innerHTML = artigo.kb_author_email;
+            a.append(h1, p);
+            div.appendChild(a);
+            resultados[1].appendChild(div);
+        });
+        resultados[0].removeAttribute('style');
+        resultados[1].removeAttribute('style');
+        curtidos[0].setAttribute('style', 'display: none;');
+        curtidos[1].setAttribute('style', 'display: none;');
+        destaques[0].setAttribute('style', 'display: none;');
+        destaques[1].setAttribute('style', 'display: none;');
+    }else{
+        resultados[0].setAttribute('style', 'display: none;');
+        resultados[1].setAttribute('style', 'display: none;');
+        curtidos[0].removeAttribute('style');
+        curtidos[1].removeAttribute('style');
+        destaques[0].removeAttribute('style');
+        destaques[1].removeAttribute('style');
+    }
+}
+
+async function getFeaturedArticles() {
+    featured = await fetch(baseUrl + "/articles/featured", {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -41,12 +84,21 @@ async function getFeaturedArticles(){
     await getFeaturedArticles();
     await getUserData();
 
-    if(user){
+    if (user) {
         let h1 = document.createElement('p');
         h1.classList.add('ola');
         h1.innerHTML = `Olá, ${user.author_name}`
         titulo.appendChild(h1);
-    }else{
+        if (user.author_level == 'admin') {
+            let btn = document.createElement('button');
+            btn.classList.add('btnlogin');
+            btn.innerHTML = "Admin";
+            let a = document.createElement('a');
+            a.setAttribute('href', './admin.html');
+            a.appendChild(btn);
+            botoes.appendChild(a);
+        }
+    } else {
         let btn = document.createElement('button');
         btn.classList.add('btnlogin');
         btn.innerHTML = "Login";
@@ -70,7 +122,7 @@ async function getFeaturedArticles(){
         p.innerHTML = artigo.kb_author_email;
         a.append(h1, p);
         div.appendChild(a);
-        curtidos.appendChild(div);
+        curtidos[1].appendChild(div);
     });
 
     featured.forEach(artigo => {
@@ -87,6 +139,6 @@ async function getFeaturedArticles(){
         p.innerHTML = artigo.kb_author_email;
         a.append(h1, p);
         div.appendChild(a);
-        destaques.appendChild(div);
+        destaques[1].appendChild(div);
     });
 })();
