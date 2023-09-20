@@ -8,11 +8,16 @@ const app = Router();
 
 app.get("/user-data", (req, res) => {
     return res.status(200).json({user: req.session.user ? req.session.user : null});
+});
+
+app.get('/all', authenticator,(req, res) => {
+    const users = JSON.parse(fs.readFileSync(__dirname + '/data/users.json'));
+    return res.status(200).json(users);
 })
 
 app.get("/:user", (req, res) => {
     const users = JSON.parse(fs.readFileSync(__dirname + '/data/users.json'));
-    const user = users.filter(u => u.author_user == req.params.user)[0];
+    const user = users.find(u => u.author_user == req.params.user);
     if (!user) {
         return res.status(404).json({ message: "Usuário não encontrado" });
     }
@@ -21,7 +26,7 @@ app.get("/:user", (req, res) => {
 
 app.post("/create", authenticator, (req, res) => {
     const users = JSON.parse(fs.readFileSync(__dirname + '/data/users.json'));
-    const user = users.filter(u => u.author_email == req.body.email)[0];
+    const user = users.find(u => u.author_email == req.body.email);
     if (user) {
         return res.status(409).json({ message: "Email já cadastrado" });
     }
@@ -40,15 +45,15 @@ app.post("/create", authenticator, (req, res) => {
 
     users.push(new_user);
     fs.writeFileSync(__dirname + '\\data\\users.json', JSON.stringify(users));
-    return res.status(201).json({ message: "Success", user: new_user });
+    return res.status(201).redirect('/admin.html');
 });
 
-app.put("/update", authenticator, (req, res) => {
+app.post("/update", authenticator, (req, res) => {
     const users = JSON.parse(fs.readFileSync(__dirname + '/data/users.json'));
     if (!req.body.id) {
         return res.status(400).json({ message: "Informe o ID!" });
     }
-    const user = users.filter(u => u.id == req.body.id)[0];
+    const user = users.find(u => u.author_id == req.body.id);
     if (!user) {
         return res.status(404).json({ message: "Usuário não encontrado" });
     }
@@ -65,36 +70,21 @@ app.put("/update", authenticator, (req, res) => {
     const index = users.findIndex(u => u.author_id === user.author_id);
     users.splice(index, 1, user);
     fs.writeFileSync(__dirname + '\\data\\users.json', JSON.stringify(users));
-    return res.status(204).send();
+    return res.status(204).redirect('/admin.html');
 })
 
-app.put("/activate/:id", authenticator, (req, res) => {
+
+app.post("/change-status", authenticator, (req, res) => {
     const users = JSON.parse(fs.readFileSync(__dirname + '/data/users.json'));
-    const user = users.filter(u => u.id == req.params.id)[0];
+    const user = users.find(u => u.athorid == req.body.id);
     if (!user) {
         return res.status(404).json({ message: "Usuário não encontrado" });
     }
-    user.author_status = true;
-    users.forEach(u => {
-        if (u.author_id == user.author_id) {
-            u = user;
-        }
-    });
-    fs.writeFileSync(__dirname + '\\data\\users.json', JSON.stringify(users));
-    return res.status(204).send();
-})
-
-app.delete("/:id", authenticator, (req, res) => {
-    const users = JSON.parse(fs.readFileSync(__dirname + '/data/users.json'));
-    const user = users.filter(u => u.id == req.params.id)[0];
-    if (!user) {
-        return res.status(404).json({ message: "Usuário não encontrado" });
-    }
-    user.author_status = false;
+    user.author_status = !user.author_status;
     const index = users.findIndex(u => u.author_id === user.author_id);
     users.splice(index, 1, user);
     fs.writeFileSync(__dirname + '\\data\\users.json', JSON.stringify(users));
-    return res.status(204).send();
+    return res.status(204).redirect('/admin.html');
 
 })
 

@@ -1,10 +1,10 @@
 export default (req, res, next) => {
     if (!req.session.user) {
-        return res.status(401).json({ message: "Efetue Login!" });
+        return res.status(401).redirect('/login.html');
     }
 
     if (req.session.user.author_level != "admin") {
-        return res.status(401).json({ message: "Você não pode efetuar esta ação!" });
+        return res.status(401).redirect('/home.html');
     }
     next();
 }

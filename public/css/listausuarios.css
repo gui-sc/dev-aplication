@@ -28,13 +28,7 @@
     font-size: 14px;
     cursor: pointer;
 }
-.destaques{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-.curtidos{
+.usuarios{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;

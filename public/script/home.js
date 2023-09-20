@@ -42,7 +42,7 @@ async function getFeaturedArticles(){
     await getUserData();
 
     if(user){
-        let h1 = document.createElement('h1');
+        let h1 = document.createElement('p');
         h1.classList.add('ola');
         h1.innerHTML = `Olá, ${user.author_name}`
         titulo.appendChild(h1);

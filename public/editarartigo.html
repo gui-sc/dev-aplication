@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/cadastroartigo.css">
 </head>
+
 <body background="/img/img-fundo.jpg">
     <div class="container">
-        <form action="/articles/create" method="post">
+        <form action="/articles/update" method="post">
             <h1>Cadastro</h1>
+            <input type="text" id="id" name="id" style="display: none;">
             <input type="text" id="title" name="title" placeholder="Título">
             <br><br>
             <input type="text" id="body" name="body" placeholder="Corpo">
@@ -18,9 +21,12 @@
             <br><br>
             <input type="text" id="keywords" name="keywords" placeholder="Palavra-Chave">
             <br><br>
-            <button type="submit">Cadastre-se</button>
+            <button type="submit">Salvar</button>
+            <br><br>
+            <button type="button" onclick="deleteArticle()">Apagar</button>
         </form>
     </div>
-    <script src="/script/artigo.js"></script>
+    <script src="/script/editarartigo.js"></script>
 </body>
+
 </html>

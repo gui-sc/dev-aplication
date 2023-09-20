@@ -6,6 +6,11 @@ import liked_counter from "../middlewares/liked_counter.js";
 import { __dirname } from "../app.js";
 const app = Router();
 
+app.get('/all', (req, res) => {
+    const articles = JSON.parse(fs.readFileSync(__dirname + '/data/articles.json'));
+    return res.status(200).json(articles);
+})
+
 app.get("/most_liked", async (req, res) => {
     const articles = JSON.parse(fs.readFileSync(__dirname + '/data/articles.json'));
     const sortArticles = articles.sort((x, y) => x.kb_liked_count - y.kb_liked_count).slice(0, 10).reverse();
@@ -38,9 +43,10 @@ app.get("/keywords/:keyword", (req, res) => {
 app.post("/create", authenticator, (req, res) => {
     const articles = JSON.parse(fs.readFileSync(__dirname + '/data/articles.json'));
     const { title, body, permalink, keywords } = req.body;
+    const id = hash({ title, body });
     if (articles.filter(a => a.kb_id === id).length > 0) return res.status(409).json({ message: "Artigo já criado!" });
     const new_article = {
-        kb_id: hash({ title, body }),
+        kb_id: id,
         kb_title: title,
         kb_body: body,
         kb_permalink: permalink,
@@ -56,10 +62,10 @@ app.post("/create", authenticator, (req, res) => {
     articles.push(new_article);
 
     fs.writeFileSync(__dirname + '\\data\\articles.json', JSON.stringify(articles));
-    return res.status(201).json({ message: "Success", article: new_article });
+    return res.status(201).redirect('/admin.html');
 })
 
-app.put("/update", authenticator, (req, res) => {
+app.post("/update", authenticator, (req, res) => {
     const articles = JSON.parse(fs.readFileSync(__dirname + '/data/articles.json'));
     const { id } = req.body;
     const article = articles.filter(a => a.kb_id == id)[0];
@@ -75,7 +81,7 @@ app.put("/update", authenticator, (req, res) => {
     const index = articles.findIndex(a => a.kb_id === article.kb_id);
     articles.splice(index, 1, article);
     fs.writeFileSync(__dirname + '\\data\\articles.json', JSON.stringify(articles));
-    return res.status(204).send();
+    return res.status(204).redirect('/admin.html');
 })
 
 app.put("/like", liked_counter, (req, res) => {
@@ -96,7 +102,7 @@ app.delete("/:id", authenticator, (req, res) => {
     const index = articles.findIndex(a => a.kb_id === article.kb_id);
     articles.splice(index, 1);
     fs.writeFileSync(__dirname + '\\data\\articles.json', JSON.stringify(articles));
-    return res.status(204).send();
+    return res.status(204).redirect('/admin.html');
 })
 
 export default app;
