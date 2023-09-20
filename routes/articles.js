@@ -42,7 +42,7 @@ app.get("/keywords/:keyword", (req, res) => {
 
 app.post("/create", authenticator, (req, res) => {
     const articles = JSON.parse(fs.readFileSync(__dirname + '/data/articles.json'));
-    const { title, body, permalink, keywords } = req.body;
+    const { title, body, permalink, keywords, featured } = req.body;
     const id = hash({ title, body });
     if (articles.filter(a => a.kb_id === id).length > 0) return res.status(409).json({ message: "Artigo já criado!" });
     const new_article = {
@@ -54,7 +54,7 @@ app.post("/create", authenticator, (req, res) => {
         kb_liked_count: 0,
         kb_published: true,
         kb_suggestion: false,
-        kb_featured: false,
+        kb_featured: featured,
         kb_author_email: req.session.user.author_email,
         kb_published_date: new Date().toISOString().split("T")[0]
     }
@@ -72,11 +72,12 @@ app.post("/update", authenticator, (req, res) => {
     if (!article) {
         return res.status(404).json({ message: "Article not found" });
     }
-    const { title, body, permalink, keywords } = req.body;
+    const { title, body, permalink, keywords, featured } = req.body;
     if (title) article.kb_title = title;
     if (body) article.kb_body = body;
     if (permalink) article.kb_permalink = permalink;
     if (keywords) article.kb_keywords = keywords;
+    article.kb_featured = featured;
 
     const index = articles.findIndex(a => a.kb_id === article.kb_id);
     articles.splice(index, 1, article);

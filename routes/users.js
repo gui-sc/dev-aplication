@@ -10,6 +10,11 @@ app.get("/user-data", (req, res) => {
     return res.status(200).json({user: req.session.user ? req.session.user : null});
 });
 
+app.post('/logoff', (req, res) => {
+    req.session.user = null;
+    return res.status(200).redirect('/home.html');
+})
+
 app.get('/all', authenticator,(req, res) => {
     const users = JSON.parse(fs.readFileSync(__dirname + '/data/users.json'));
     return res.status(200).json(users);

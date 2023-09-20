@@ -6,6 +6,7 @@ let title = document.getElementById('title');
 let body = document.getElementById('body');
 let permalink = document.getElementById('permalink');
 let keywords = document.getElementById('keywords');
+let checkbox = document.getElementById('featured');
 let titulo = document.getElementsByClassName('titulo')[0];
 let botoes = document.getElementsByClassName('botoes')[0];
 let userData;
@@ -68,5 +69,6 @@ async function deleteArticle() {
         body.value = article.kb_body;
         permalink.value = article.kb_permalink;
         keywords.value = article.kb_keywords;
+        checkbox.checked = article.kb_featured;
     }
 })()

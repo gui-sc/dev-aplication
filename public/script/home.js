@@ -9,6 +9,12 @@ let mostLiked;
 let featured;
 let user;
 let results;
+
+async function logoff() {
+    await fetch(baseUrl + '/users/logoff', {
+        method: 'post'
+    });
+}
 async function getUserData() {
 
     user = await fetch(baseUrl + "/users/user-data", {
@@ -16,7 +22,7 @@ async function getUserData() {
     }).then(async (res) => {
         return await res.json().then(res => { return res.user });
     })
-    
+
 }
 async function getMostLikedArticles() {
     mostLiked = await fetch(baseUrl + "/articles/most_liked", {
@@ -59,7 +65,7 @@ async function search() {
         curtidos[1].setAttribute('style', 'display: none;');
         destaques[0].setAttribute('style', 'display: none;');
         destaques[1].setAttribute('style', 'display: none;');
-    }else{
+    } else {
         resultados[0].setAttribute('style', 'display: none;');
         resultados[1].setAttribute('style', 'display: none;');
         curtidos[0].removeAttribute('style');
