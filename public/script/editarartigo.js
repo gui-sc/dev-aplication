@@ -30,9 +30,9 @@ async function getArticle() {
 }
 
 async function deleteArticle() {
-    await fetch(`http://localhost:3000/articles/delete/${article.kb_id}`, {
+    await fetch(`http://localhost:3000/articles/${article.kb_id}`, {
         method: 'delete'
-    }).then(res => alert('deletado'));
+    }).then(window.location.replace('../../admin.html'));
 }
 
 (async () => {

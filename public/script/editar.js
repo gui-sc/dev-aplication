@@ -36,9 +36,7 @@ async function changeStatus() {
         body: {
             id: user.author_id
         }
-    }).then(res => {
-        alert('Status alterado');
-    })
+    }).then(window.location.replace('../../admin.html'));
 }
 
 
@@ -74,7 +72,6 @@ async function changeStatus() {
         idInput.value = user.author_id;
         nameInput.value = user.author_name;
         email.value = user.author_email;
-        pwd.value = user.author_pwd;
         btnStatus.innerHTML = user.author_status ? 'Desativar Usuário' : 'Ativar Usuário';
         form.appendChild(btnStatus);
     }

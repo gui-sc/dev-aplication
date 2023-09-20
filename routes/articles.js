@@ -102,7 +102,7 @@ app.delete("/:id", authenticator, (req, res) => {
     const index = articles.findIndex(a => a.kb_id === article.kb_id);
     articles.splice(index, 1);
     fs.writeFileSync(__dirname + '\\data\\articles.json', JSON.stringify(articles));
-    return res.status(204).redirect('/admin.html');
+    return res.status(204).redirect('http://localhos:3000/admin.html');
 })
 
 export default app;

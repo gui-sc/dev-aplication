@@ -61,7 +61,7 @@ app.post("/update", authenticator, (req, res) => {
     let pwd_encrypt;
     let username;
     if (email) username = email.split("@")[0];
-    if (pwd) pwd_encrypt = bcrypt.hashSync(pwd, 10);
+    if (pwd.trim() != '') pwd_encrypt = bcrypt.hashSync(pwd, 10);
 
     if (email) user.author_email = email;
     if (name) user.author_name = name;
@@ -84,7 +84,7 @@ app.post("/change-status", authenticator, (req, res) => {
     const index = users.findIndex(u => u.author_id === user.author_id);
     users.splice(index, 1, user);
     fs.writeFileSync(__dirname + '\\data\\users.json', JSON.stringify(users));
-    return res.status(204).redirect('/admin.html');
+    return res.status(204);
 
 })
 
