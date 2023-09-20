@@ -10,6 +10,11 @@ let btnStatus = form.getElementsByTagName('button')[1];
 let titulo = document.getElementsByClassName('titulo')[0];
 let botoes = document.getElementsByClassName('botoes')[0];
 let userData;
+async function logoff() {
+    await fetch(baseUrl + '/users/logoff', {
+        method: 'post'
+    });
+}
 async function getUserData() {
 
     userData = await fetch(baseUrl + "/users/user-data", {

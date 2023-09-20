@@ -8,6 +8,11 @@ let likesComponent = document.getElementsByTagName('h4')[0];
 let rodape = document.getElementsByTagName('footer')[0];
 let article;
 let userData;
+async function logoff() {
+    await fetch(baseUrl + '/users/logoff', {
+        method: 'post'
+    }).then(window.location.replace('../../home.html'));
+}
 async function getUserData() {
 
     userData = await fetch(baseUrl + "/users/user-data", {
@@ -61,6 +66,13 @@ async function like() {
             a.appendChild(btn);
             botoes.appendChild(a);
         }
+        let btn = document.createElement('button');
+        btn.classList.add('btnlogin');
+        btn.innerHTML = "Sair";
+        let a = document.createElement('a');
+        a.setAttribute('onclick', 'logoff()');
+        a.appendChild(btn);
+        botoes.appendChild(a);
     } else {
         let btn = document.createElement('button');
         btn.classList.add('btnlogin');
@@ -93,6 +105,7 @@ async function like() {
     let p3 = document.createElement('p');
     let a1 = document.createElement('a');
     a1.setAttribute('href', article.kb_permalink);
+    a1.setAttribute('target', '_blank');
     p1.innerHTML = 'Publicado em: ' + article.kb_published_date;
     rodape.appendChild(p1);
     p2.innerHTML = 'Email do autor: ' + article.kb_author_email;

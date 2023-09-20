@@ -2,6 +2,11 @@ let baseUrl = "http://localhost:3000";
 let userData;
 let titulo = document.getElementsByClassName('titulo')[0];
 let botoes = document.getElementsByClassName('botoes')[0];
+async function logoff() {
+    await fetch(baseUrl + '/users/logoff', {
+        method: 'post'
+    });
+}
 async function getUserData() {
 
     userData = await fetch(baseUrl + "/users/user-data", {

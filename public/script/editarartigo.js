@@ -10,6 +10,11 @@ let checkbox = document.getElementById('featured');
 let titulo = document.getElementsByClassName('titulo')[0];
 let botoes = document.getElementsByClassName('botoes')[0];
 let userData;
+async function logoff() {
+    await fetch(baseUrl + '/users/logoff', {
+        method: 'post'
+    }).then(window.location.replace('../../home.html'));
+}
 async function getUserData() {
 
     userData = await fetch(baseUrl + "/users/user-data", {
@@ -53,6 +58,13 @@ async function deleteArticle() {
             a.appendChild(btn);
             botoes.appendChild(a);
         }
+        let btn = document.createElement('button');
+        btn.classList.add('btnlogin');
+        btn.innerHTML = "Sair";
+        let a = document.createElement('a');
+        a.setAttribute('onclick', 'logoff()');
+        a.appendChild(btn);
+        botoes.appendChild(a);
     } else {
         let btn = document.createElement('button');
         btn.classList.add('btnlogin');
